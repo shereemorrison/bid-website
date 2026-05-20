@@ -1,25 +1,24 @@
-import { useRef, useLayoutEffect, useCallback } from 'react'
+import { useRef, useCallback, useEffect, useState } from 'react'
 import { motion, useMotionTemplate, useSpring } from 'framer-motion'
-import { FiPlay } from 'react-icons/fi'
-import { gsap } from '../animations/registerGsap'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
+import { HeroCopy } from '../components/HeroCopy'
+import { useHeroCopyReveal } from '../hooks/useHeroCopyReveal'
 import { useParallaxScrub } from '../hooks/useParallaxScrub'
+import { HERO_PARALLAX } from '../animations/timings'
 import { LayoutContainer } from '../components/LayoutContainer'
-import { cn } from '../lib/cn'
-import {
-  ATHLETE_FIRST_NAME,
-  ATHLETE_SURNAME,
-} from '../lib/athlete'
+import { BracketFrame } from '../components/BracketFrame'
+import { HERO_VIDEO_SRC } from '../lib/heroMedia'
 
-/**
- * Hero: headline + **video shell** (full trailer / fight reel later — modal, embed, or `<video>`).
- * Moody red environment + light GSAP intro; no WebGL chunk here to keep first paint lean.
- */
-export function HeroSection() {
+/** Full-bleed hero video, graded overlays, asymmetric copy (reveals after iris opener). */
+export function HeroSection({ introComplete = true }) {
   const root = useRef(null)
+  const videoRef = useRef(null)
   const layerBack = useRef(null)
   const layerMid = useRef(null)
   const reduced = usePrefersReducedMotion()
+  const [videoError, setVideoError] = useState(false)
+
+  useHeroCopyReveal(root, introComplete, reduced)
 
   const pointerX = useSpring(0, { stiffness: 80, damping: 25 })
   const pointerY = useSpring(0, { stiffness: 80, damping: 25 })
@@ -27,35 +26,27 @@ export function HeroSection() {
 
   useParallaxScrub(layerBack, {
     triggerRef: root,
-    yPercent: reduced ? 0 : 7,
+    yPercent: reduced ? 0 : HERO_PARALLAX.layerBackY,
+    start: HERO_PARALLAX.start,
+    end: HERO_PARALLAX.end,
   })
   useParallaxScrub(layerMid, {
     triggerRef: root,
-    yPercent: reduced ? 0 : 12,
+    yPercent: reduced ? 0 : HERO_PARALLAX.layerMidY,
+    start: HERO_PARALLAX.start,
+    end: HERO_PARALLAX.end,
   })
 
-  useLayoutEffect(() => {
-    if (!root.current || reduced) return
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
-      tl.from('[data-hero-line]', {
-        y: 86,
-        opacity: 0,
-        duration: 1.05,
-      }).from(
-        ['[data-hero-kicker]', '[data-hero-blurb]'],
-        {
-          opacity: 0,
-          y: 28,
-          duration: 0.7,
-          stagger: 0.1,
-        },
-        '-=0.55',
-      )
-    }, root)
-
-    return () => ctx.revert()
-  }, [reduced])
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el || videoError) return
+    if (reduced) {
+      el.pause()
+      return
+    }
+    const p = el.play()
+    if (p !== undefined) p.catch(() => {})
+  }, [reduced, videoError])
 
   const onMove = useCallback(
     (e) => {
@@ -71,23 +62,73 @@ export function HeroSection() {
     <section
       ref={root}
       id="top"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[#060304] pt-24 md:pt-28"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[#060304]"
       onPointerMove={onMove}
     >
-      {/* Deep red atmosphere — parallax wash */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-28 bg-gradient-to-b from-[#060304] via-[#060304]/80 to-transparent sm:h-32"
+        aria-hidden
+      />
+
+      <div className="pointer-events-none absolute inset-0 z-0 min-h-[100svh]">
+        {!videoError ? (
+          <video
+            ref={videoRef}
+            key={HERO_VIDEO_SRC}
+            className="h-full min-h-[100svh] w-full object-cover"
+            src={HERO_VIDEO_SRC}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label="Hero background film"
+            onError={() => setVideoError(true)}
+          />
+        ) : (
+          <div
+            className="flex h-full min-h-[100svh] w-full items-center justify-center bg-gradient-to-br from-red-950/40 via-[#0a0505] to-black"
+            aria-hidden
+          >
+            <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-zinc-600">
+              No reel loaded
+            </span>
+          </div>
+        )}
+        {videoError && import.meta.env.DEV ? (
+          <div className="pointer-events-none absolute inset-x-0 bottom-28 z-[5] flex justify-center px-4">
+            <p className="max-w-lg rounded-lg border border-amber-700/50 bg-black/80 px-4 py-3 text-center font-mono text-[11px] leading-relaxed text-amber-100/95">
+              <span className="font-semibold text-amber-400">Video did not load.</span> Add{' '}
+              <code className="text-rose-300">public/hero.mp4</code> or set{' '}
+              <code className="text-rose-300">VITE_HERO_VIDEO</code> in{' '}
+              <code className="text-rose-300">.env</code> (see{' '}
+              <code className="text-rose-300">.env.example</code>). Current URL:{' '}
+              <code className="break-all text-zinc-400">{HERO_VIDEO_SRC}</code>
+            </p>
+          </div>
+        ) : null}
+      </div>
+
       <div
         ref={layerBack}
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(127,29,29,0.35),transparent_50%),radial-gradient(ellipse_90%_60%_at_100%_100%,rgba(69,10,10,0.55),transparent_55%),radial-gradient(ellipse_80%_50%_at_0%_80%,rgba(24,6,6,0.5),transparent_50%)]"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#060304] via-[#060304]/50 to-[#060304]/75"
       />
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] opacity-90 mix-blend-multiply"
+        style={{
+          background:
+            'radial-gradient(ellipse 120% 80% at 50% -20%, rgba(127,29,29,0.45), transparent 50%), radial-gradient(ellipse 90% 60% at 100% 100%, rgba(69,10,10,0.5), transparent 55%)',
+        }}
+      />
+
       {!reduced && (
         <motion.div
           ref={layerMid}
           style={{ background: glow }}
-          className="pointer-events-none absolute inset-0 mix-blend-screen opacity-90"
+          className="pointer-events-none absolute inset-0 z-[2] mix-blend-screen opacity-80"
         />
       )}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        className="pointer-events-none absolute inset-0 z-[2] opacity-[0.06]"
         style={{
           backgroundImage:
             'linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)',
@@ -95,94 +136,28 @@ export function HeroSection() {
         }}
       />
 
-      <LayoutContainer className="relative z-10 flex flex-1 flex-col gap-12 pb-16 lg:flex-row lg:items-stretch lg:gap-12 lg:pb-24">
-        <div className="flex max-w-xl flex-1 flex-col justify-center">
-          <p
-            data-hero-kicker
-            className="mb-4 font-mono text-xs uppercase tracking-[0.35em] text-rose-400/85"
-          >
-            Professional boxer
-          </p>
-          <h1 className="font-display text-[clamp(2.5rem,9vw,7rem)] leading-[1.06] tracking-tight">
-            <span className="block overflow-hidden">
-              <span
-                data-hero-line
-                lang="sr-Latn"
-                className="inline-block pt-[0.14em] -mt-[0.14em]"
-              >
-                <span className="text-white">{ATHLETE_FIRST_NAME}</span>
-                {' '}
-                <span className="text-rose-100 [text-shadow:0_0_42px_rgba(220,38,38,0.45)]">
-                  {ATHLETE_SURNAME}
-                </span>
-              </span>
-            </span>
-          </h1>
-          <p
-            data-hero-blurb
-            className="mt-8 max-w-md text-pretty text-base leading-relaxed text-zinc-500 md:text-lg"
-          >
-            Immersive chronicle of a fighter’s path — ring physics, grit, and the craft of the
-            comeback. Full hero film lives beside this headline.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a
-              href="#story"
-              className="rounded-full border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-semibold uppercase tracking-widest text-white backdrop-blur transition hover:border-red-500/40 hover:bg-red-950/40"
-            >
-              The story
-            </a>
-            <a
-              href="#merch"
-              className="rounded-full bg-red-900 px-6 py-3 text-sm font-semibold uppercase tracking-widest text-red-50 shadow-[0_0_36px_rgba(127,29,29,0.45)] transition hover:bg-red-800"
-            >
-              View merch
-            </a>
-          </div>
-        </div>
+      <LayoutContainer className="relative z-10 flex min-h-0 flex-1 flex-col justify-center pb-20 pt-16 sm:pb-24 sm:pt-20 lg:min-h-[min(100svh,900px)]">
+        <HeroCopy />
 
-        {/* Video placeholder: wire to modal, `/video` route, or `<video>` when assets exist */}
-        <div className="flex w-full flex-1 items-center lg:min-h-[min(52vh,520px)] lg:max-w-[58%]">
-          <div className="relative w-full">
-            <div
-              className={cn(
-                'aspect-video w-full overflow-hidden rounded-2xl border border-red-950/70',
-                'bg-gradient-to-br from-red-950/80 via-[#0f0505] to-black',
-                'shadow-[0_0_80px_-12px_rgba(127,29,29,0.55),inset_0_1px_0_rgba(255,255,255,0.06)]',
-              )}
-            >
-              <div className="flex h-full min-h-[200px] w-full flex-col items-center justify-center gap-5 px-6 py-10 sm:min-h-0 sm:py-14">
-                <button
-                  type="button"
-                  className="group flex size-16 items-center justify-center rounded-full border border-red-500/25 bg-red-950/60 text-red-100 shadow-inner transition hover:border-red-400/50 hover:bg-red-950/90"
-                  aria-label="Play hero video (placeholder)"
-                  disabled
-                >
-                  <FiPlay
-                    className="size-7 translate-x-0.5 opacity-80 transition group-hover:opacity-100"
-                    aria-hidden
-                  />
-                </button>
-                <div className="text-center">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.45em] text-red-300/75">
-                    Hero film
-                  </p>
-                  <p className="mt-3 max-w-sm text-pretty text-sm leading-relaxed text-zinc-500">
-                    Drop in trailer, embedded player, or modal opener here — shell only for now.
-                  </p>
-                </div>
-                <p className="rounded-full border border-dashed border-red-900/50 bg-black/30 px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest text-red-900/90">
-                  Video mount point
-                </p>
-              </div>
-            </div>
-          </div>
+        <div data-hero-aside className="hero-aside">
+          <BracketFrame
+            align="right"
+            className="ml-auto font-mono uppercase text-[13px] tracking-[0.14em] text-zinc-200 lg:text-[11px] lg:leading-relaxed xl:text-[12px]"
+          >
+            <p className="text-pretty text-right drop-shadow-[0_2px_16px_rgba(0,0,0,0.95)]">
+              Immersive chronicle — ring physics, grit, comeback craft. Full-bleed footage
+              behind this layer; swap in a preloader handoff when ready.
+            </p>
+          </BracketFrame>
         </div>
       </LayoutContainer>
 
-      <div className="pointer-events-none absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-zinc-600">
+      <div
+        data-hero-scroll
+        className="pointer-events-none absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-zinc-400 drop-shadow"
+      >
         <span className="text-[10px] uppercase tracking-[0.4em]">Scroll</span>
-        <span className="h-10 w-px bg-gradient-to-b from-red-600/70 to-transparent" />
+        <span className="h-10 w-px bg-gradient-to-b from-red-500/90 to-transparent" />
       </div>
     </section>
   )

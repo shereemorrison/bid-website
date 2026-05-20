@@ -3,27 +3,36 @@
 /* Split styles: global tokens live here; Lenis + layout utilities live in `styles/` */
 @import "./styles/lenis.css";
 @import "./styles/layout.css";
+@import "./styles/hero-copy.css";
+@import "./styles/crt.css";
 
 /**
- * Tailwind CSS v4 theme hook-in — near-black base with red/crimson accents in components.
- * `--font-display` powers `font-display` utilities for oversized headlines.
+ * Typography: chunky bitmap headline + retro monospace (Jersey 25 / VT323 from Google Fonts).
+ * DM Sans remains as fallback for Serbian Latin / missing pixel glyphs.
  */
 @theme {
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  /* Bebas often lacks Č/ć; DM Sans fills those glyphs without changing the rest of the line much */
-  --font-display: "Bebas Neue", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "VT323", "DM Sans", ui-monospace, monospace;
+  --font-mono: "VT323", "DM Sans", ui-monospace, monospace;
+  --font-display: "Jersey 25", "VT323", "DM Sans", ui-monospace, monospace;
 }
 
 @layer base {
   html {
     color-scheme: dark;
+    /* Fills safe-area / overscroll so no bright line above the cinematic mask */
+    @apply m-0 min-h-[100dvh] bg-[#060304];
   }
 
   body {
-    @apply min-h-[100dvh] bg-[#060304] font-sans text-zinc-100 antialiased;
+    @apply m-0 min-h-[100dvh] bg-[#060304] font-sans text-lg leading-snug text-zinc-100 antialiased;
   }
 
   #root {
-    @apply min-h-[100dvh];
+    @apply min-h-[100dvh] bg-[#060304];
+  }
+
+  code,
+  kbd {
+    font-family: var(--font-mono);
   }
 }

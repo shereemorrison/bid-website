@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { AppScrollContext } from '../context/AppScrollContext'
+import { LENIS } from '../animations/timings'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 
 /**
@@ -33,7 +34,7 @@ export function LenisProvider({ children }) {
     }
 
     const lenis = new Lenis({
-      lerp: 0.085,
+      lerp: LENIS.lerp,
       smoothWheel: true,
     })
     lenisRef.current = lenis

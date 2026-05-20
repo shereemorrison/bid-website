@@ -1,0 +1,24 @@
+/**
+ * CRT-style horizontal scanlines (reference: noisy mono club flyers / techno microsites).
+ */
+.crt-scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  opacity: 0.065;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 0, 0, 0.65) 2px,
+    rgba(0, 0, 0, 0.65) 3px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-scanlines {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

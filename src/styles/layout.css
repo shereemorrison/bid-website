@@ -2,11 +2,15 @@
  * Responsive “rack” for immersive sites — max readable width + fluid gutters.
  * Paired with Tailwind’s grid utilities in section components.
  */
+:root {
+  --page-gutter: clamp(0.5rem, 2vw, 1rem);
+}
+
 .layout-container {
   width: 100%;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: clamp(1rem, 4vw, 2.5rem);
-  padding-right: clamp(1rem, 4vw, 2.5rem);
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
 }
