@@ -7,7 +7,7 @@ export function SectionGrid({ children, className }) {
   return (
     <div
       className={cn(
-        'grid grid-cols-1 gap-y-12 lg:grid-cols-12 lg:items-start lg:gap-x-10 lg:gap-y-0',
+        'grid grid-cols-1 gap-y-8 lg:grid-cols-12 lg:items-start lg:gap-x-10 lg:gap-y-0',
         className,
       )}
     >

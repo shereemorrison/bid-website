@@ -124,13 +124,19 @@
   right: var(--page-gutter);
   bottom: clamp(5rem, 14vh, 8.5rem);
   z-index: 10;
-  width: min(20rem, 88vw);
-  max-width: 22rem;
+  width: min(26rem, 92vw);
+  max-width: 30rem;
+}
+
+.hero-aside__frame > div {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 @media (min-width: 1024px) {
   .hero-aside {
-    width: min(18rem, 28vw);
+    width: min(28rem, 34vw);
+    max-width: 32rem;
     bottom: clamp(5.5rem, 12vh, 9rem);
   }
 }

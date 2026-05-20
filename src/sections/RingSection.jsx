@@ -1,9 +1,10 @@
 import { useRef } from 'react'
+import { cn } from '../lib/cn'
 import { LayoutContainer } from '../components/LayoutContainer'
 import { SectionGrid, SectionMain, SectionAside, SectionFull } from '../components/SectionGrid'
 import { BracketFrame } from '../components/BracketFrame'
 import { useGsapReveal } from '../hooks/useGsapReveal'
-import { sectionKickerClass, sectionTitleClass } from '../lib/sectionLayout'
+import { sectionKickerClass, sectionPadClass, sectionTitleClass } from '../lib/sectionLayout'
 
 /**
  * Placeholder chapter — headline + framed copy on the shared 12-column rack.
@@ -16,7 +17,10 @@ export function RingSection() {
     <section
       ref={ref}
       id="ring"
-      className="scroll-mt-24 border-t border-white/10 bg-gradient-to-b from-zinc-950 via-zinc-900/40 to-zinc-950 py-24 md:py-32"
+      className={cn(
+        'scroll-mt-24 border-t border-white/10 bg-gradient-to-b from-zinc-950 via-zinc-900/40 to-zinc-950',
+        sectionPadClass,
+      )}
     >
       <LayoutContainer>
         <SectionGrid>
@@ -53,7 +57,7 @@ export function RingSection() {
             </BracketFrame>
           </SectionAside>
 
-          <SectionFull className="mt-14 lg:mt-16">
+          <SectionFull className="mt-8 lg:mt-10">
             <div
               data-reveal
               className="flex min-h-[220px] w-full items-center justify-center rounded-3xl border border-dashed border-white/20 bg-zinc-900/50 text-sm uppercase tracking-[0.3em] text-zinc-500"
