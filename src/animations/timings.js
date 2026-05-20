@@ -13,16 +13,22 @@ export const EASE = {
 
 /**
  * Iris opener (`HeroOpening`).
- * Rough sequence after `window` load:
- *   hold → label fades → window grows (1.45s) → overlay fades (from 0.92s) → onComplete
+ * Rough sequence after enter click:
+ *   buttons out → square grows → overlay fades → onComplete
  */
 export const HERO_OPENING = {
-  holdBeforeStart: 0.5,
-  labelFade: 0.35,
-  windowGrow: 1.45,
-  windowGrowDelay: 0.08,
+  /** Click → iris: prompt out, shockwave, then window grows */
+  flashPeak: 0.42,
+  flashOut: 0.55,
+  loadingOut: 0.38,
+  buttonStagger: 0.03,
+  buttonOut: 0.22,
+  shockwaveOut: 0.65,
+  windowGrow: 1.5,
+  /** After the last button exits, before the iris window grows */
+  pauseBeforeSquare: 0.12,
   overlayFade: 0.55,
-  overlayFadeAt: 0.92,
+  overlayFadeAt: 0.95,
   initialSize: { width: '36vmin', height: '20vmin' },
 }
 

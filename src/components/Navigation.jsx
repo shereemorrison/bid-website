@@ -6,6 +6,9 @@ import { cn } from '../lib/cn'
 import { ATHLETE_FULL_NAME, ATHLETE_SURNAME_UPPER } from '../lib/athlete'
 import { LENIS, UI_MOTION } from '../animations/timings'
 import { useAppScroll } from '../hooks/useAppScroll'
+import { useHeroAudio } from '../context/HeroAudioContext'
+import { HeroVolumeToggle } from './HeroVolumeToggle'
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 
 const links = [
   { href: '#story', label: 'Story' },
@@ -13,11 +16,10 @@ const links = [
   { href: '#merch', label: 'Merch' },
 ]
 
-/**
- * Fixed **top-right** menu bar (does not scroll). Horizontal glass pill: logo + Story · Ring · Merch · Shop.
- */
 export function Navigation({ className, introVisible = true }) {
   const { lenis } = useAppScroll()
+  const { userMuted, toggle: toggleAudio } = useHeroAudio()
+  const reduced = usePrefersReducedMotion()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const go = useCallback(
@@ -65,7 +67,7 @@ export function Navigation({ className, introVisible = true }) {
     <>
       <header
         className={cn(
-          'pointer-events-none fixed top-3 z-[200] transition-opacity sm:top-4',
+          'pointer-events-none fixed top-3 z-[310] transition-opacity sm:top-4',
           'right-[var(--page-gutter)]',
           className,
         )}
@@ -108,6 +110,10 @@ export function Navigation({ className, introVisible = true }) {
             <FiShoppingBag className="size-3.5" aria-hidden />
           </motion.a>
 
+          {!reduced ? (
+            <HeroVolumeToggle muted={userMuted} onToggle={toggleAudio} />
+          ) : null}
+
           <button
             type="button"
             className="rounded-lg border border-white/20 p-2 text-zinc-200 sm:hidden"
@@ -126,7 +132,7 @@ export function Navigation({ className, introVisible = true }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[210] bg-black/70 backdrop-blur-sm sm:hidden"
+            className="fixed inset-0 z-[320] bg-black/70 backdrop-blur-sm sm:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
@@ -172,6 +178,11 @@ export function Navigation({ className, introVisible = true }) {
                 >
                   Shop
                 </a>
+                {!reduced ? (
+                  <div className="mt-2 border-t border-white/10 pt-4">
+                    <HeroVolumeToggle muted={userMuted} onToggle={toggleAudio} />
+                  </div>
+                ) : null}
               </div>
             </motion.div>
           </motion.div>

@@ -9,7 +9,7 @@ import { LayoutContainer } from '../components/LayoutContainer'
 import { BracketFrame } from '../components/BracketFrame'
 import { HERO_VIDEO_SRC } from '../lib/heroMedia'
 
-/** Full-bleed hero video, graded overlays, asymmetric copy (reveals after iris opener). */
+/** Full-bleed hero video + separate MP3 soundtrack (video always muted). */
 export function HeroSection({ introComplete = true }) {
   const root = useRef(null)
   const videoRef = useRef(null)
@@ -37,16 +37,15 @@ export function HeroSection({ introComplete = true }) {
     end: HERO_PARALLAX.end,
   })
 
+  /** Muted video during iris so the window shows the reel. */
   useEffect(() => {
-    const el = videoRef.current
-    if (!el || videoError) return
-    if (reduced) {
-      el.pause()
-      return
-    }
-    const p = el.play()
+    const video = videoRef.current
+    if (!video || videoError || reduced) return
+
+    video.muted = true
+    const p = video.play()
     if (p !== undefined) p.catch(() => {})
-  }, [reduced, videoError])
+  }, [videoError, reduced])
 
   const onMove = useCallback(
     (e) => {
