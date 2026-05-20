@@ -119,7 +119,7 @@ export function HeroOpening({ onComplete }) {
           ref={loadingRef}
           className="font-mono text-[11px] uppercase tracking-[0.55em] text-red-500/95 will-change-transform"
         >
-          Loading
+          Enter the Experience
         </p>
 
         <div
