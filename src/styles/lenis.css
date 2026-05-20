@@ -1,0 +1,11 @@
+/**
+ * Lenis attaches classes to the root element; these rules avoid odd overflow with fixed UI.
+ * See https://github.com/darkroomengineering/lenis
+ */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
