@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { LenisProvider } from './components/LenisProvider'
+import { HeroAudioProvider } from './context/HeroAudioContext'
 import { HeroOpening } from './components/HeroOpening'
 import { Navigation } from './components/Navigation'
 import { ScrollProgress } from './components/ScrollProgress'
@@ -19,19 +20,21 @@ function App() {
 
   return (
     <LenisProvider>
-      <div className="relative min-h-[100dvh] overflow-x-hidden bg-[#060304] text-zinc-100">
-        {!introDone ? <HeroOpening onComplete={onIntroDone} /> : null}
-        <div className="crt-scanlines" aria-hidden />
-        {introDone ? <ScrollProgress /> : null}
-        <Navigation introVisible={introDone} />
-        <main>
-          <HeroSection introComplete={introDone} />
-          <StorySection />
-          <RingSection />
-          <MerchSection />
-        </main>
-        <SiteFooter />
-      </div>
+      <HeroAudioProvider>
+        <div className="relative min-h-[100dvh] overflow-x-hidden bg-[#060304] text-zinc-100">
+          {!introDone ? <HeroOpening onComplete={onIntroDone} /> : null}
+          <div className="crt-scanlines" aria-hidden />
+          {introDone ? <ScrollProgress /> : null}
+          <Navigation introVisible />
+          <main>
+            <HeroSection introComplete={introDone} />
+            <StorySection />
+            <RingSection />
+            <MerchSection />
+          </main>
+          <SiteFooter />
+        </div>
+      </HeroAudioProvider>
     </LenisProvider>
   )
 }
