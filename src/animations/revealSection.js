@@ -1,25 +1,23 @@
 import { gsap } from './registerGsap'
+import { EASE, SECTION_REVEAL } from './timings'
 
 /**
- * Fade/slide reveal for section content — use inside gsap.context in a section component.
- *
- * @param {HTMLElement} root - scope root (usually a section ref)
- * @param {string} selector - query within root for animated children
+ * Fade/slide reveal for `[data-reveal]` children inside a section root.
  */
 export function revealSection(root, selector = '[data-reveal]') {
   const els = root.querySelectorAll(selector)
   if (!els.length) return
 
   gsap.from(els, {
-    y: 48,
+    y: SECTION_REVEAL.y,
     opacity: 0,
-    duration: 0.9,
-    stagger: 0.12,
-    ease: 'power3.out',
+    duration: SECTION_REVEAL.duration,
+    stagger: SECTION_REVEAL.stagger,
+    ease: EASE.section,
     scrollTrigger: {
       trigger: root,
-      start: 'top 80%',
-      end: 'bottom 20%',
+      start: SECTION_REVEAL.scrollStart,
+      end: SECTION_REVEAL.scrollEnd,
       toggleActions: 'play none none reverse',
     },
   })

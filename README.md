@@ -1,6 +1,6 @@
 # bid-website
 
-Cinematic marketing site for **Stefan Časić** — story, hero video shell, and merch placeholders. Built for scroll-driven motion and room to grow (3D scenes, shaders, real video).
+Cinematic marketing site for **Stefan Časić** — hero video, story, ring placeholder, and merch. Scroll-driven motion via GSAP + Lenis.
 
 ## Stack
 
@@ -10,9 +10,21 @@ Cinematic marketing site for **Stefan Časić** — story, hero video shell, and
 | Styling | [Tailwind CSS v4](https://tailwindcss.com/) (`@tailwindcss/vite`) |
 | Smooth scroll | [Lenis](https://github.com/darkroomengineering/lenis) + [GSAP](https://gsap.com/) ticker sync |
 | Scroll animation | [GSAP](https://gsap.com/) + **ScrollTrigger** |
-| UI motion | [Framer Motion](https://www.framer.com/motion/) |
-| 3D (optional) | [React Three Fiber](https://r3f.docs.pmnd.rs/) + [drei](https://github.com/pmndrs/drei) + [Three.js](https://threejs.org/) — `HeroCanvas` / `HeroScene` |
+| UI motion | [Framer Motion](https://www.framer.com/motion/) (nav, cards, scroll bar) |
+| Typography | [Jersey 25](https://fonts.google.com/specimen/Jersey+25) (display) + [VT323](https://fonts.google.com/specimen/VT323) (UI/body), [DM Sans](https://fonts.google.com/specimen/DM+Sans) as glyph fallback |
 | Icons | [React Icons](https://react-icons.github.io/react-icons/) |
+
+### Motion timings
+
+All durations, eases, and scroll positions are centralized in **`src/animations/timings.js`**. Section timelines live beside it (`heroOpening.js`, `heroCopyReveal.js`, `revealSection.js`). See **`src/animations/README.md`**.
+
+## Hero video & opening
+
+- Video file at **`public/hero.mp4`**
+
+## Typography & “techno” shell
+
+Headlines use a **bitmap-style** face; body and chrome use a **monospace pixel** face.
 
 ## Prerequisites
 
@@ -41,16 +53,14 @@ Open the URL Vite prints (usually `http://localhost:5173`).
 
 ```
 src/
-  animations/     # GSAP registration + shared triggers (e.g. section reveals)
-  assets/         # Static images, video poster frames, etc.
-  components/     # Nav, Lenis provider, scroll progress, layout shell
+  animations/     # timings.js + GSAP timelines (intro, hero copy, scroll reveals)
+  components/     # Nav, Lenis, layout grid, opening overlay
   context/        # App scroll context (Lenis + progress)
-  hooks/          # useAppScroll, useGsapReveal, useParallaxScrub, …
-  lib/            # Small utils, `athlete.js` name constants, dependency notes
-  scenes/         # React Three Fiber scenes (optional / lazy-loaded)
-  sections/       # Page sections — add new story blocks here
-  shaders/        # Future GLSL (see README inside folder)
-  styles/         # Lenis tweaks, layout helpers (imported from index.css)
+  hooks/          # useGsapReveal, useHeroCopyReveal, useParallaxScrub, …
+  lib/            # athlete copy, hero media URL, section typography classes
+  sections/       # Hero, Story, Ring, Merch
+  shaders/        # Future GLSL placeholder
+  styles/         # Lenis, layout container, CRT overlay
 ```
 
 ## Deploy

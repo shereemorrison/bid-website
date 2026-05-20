@@ -1,0 +1,148 @@
+/**
+ * Hero intro — one column, one left rail for all copy + CTAs.
+ */
+.hero-copy {
+  --hero-track: 0.05em;
+  --hero-nudge-kicker: clamp(0.3rem, 1.6vw, 0.55rem);
+  --hero-nudge-tagline: clamp(0.45rem, 2.2vw, 0.75rem);
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .hero-copy {
+    gap: 0.375rem;
+  }
+}
+
+.hero-copy__row {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.hero-copy__line {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  padding-inline-start: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: var(--hero-track);
+  text-align: left;
+  text-transform: uppercase;
+  transform-origin: left center;
+}
+
+.hero-copy__line[data-hero-kicker] {
+  padding-inline-start: var(--hero-nudge-kicker);
+  font-size: 0.875rem;
+  line-height: 1;
+  color: rgb(251 113 133 / 0.9);
+}
+
+@media (min-width: 640px) {
+  .hero-copy__line[data-hero-kicker] {
+    font-size: 1rem;
+  }
+}
+
+.hero-copy__line[data-hero-line='given'] {
+  font-size: clamp(2.75rem, 9vw, 6.75rem);
+  line-height: 0.88;
+  color: #fff;
+  text-shadow: 0 2px 24px rgb(0 0 0 / 0.75);
+}
+
+.hero-copy__line[data-hero-line='family'] {
+  font-size: clamp(2.75rem, 9vw, 6.75rem);
+  line-height: 0.88;
+  color: rgb(255 228 230);
+  text-shadow: 0 0 42px rgb(220 38 38 / 0.45);
+}
+
+.hero-copy__line[data-hero-tagline] {
+  padding-inline-start: var(--hero-nudge-tagline);
+  font-size: 0.875rem;
+  line-height: 1.15;
+  color: rgb(161 161 170);
+}
+
+@media (min-width: 640px) {
+  .hero-copy__line[data-hero-tagline] {
+    font-size: 1rem;
+  }
+}
+
+.hero-copy__row--actions {
+  margin-top: 0.35rem;
+  overflow: visible;
+}
+
+@media (min-width: 640px) {
+  .hero-copy__row--actions {
+    margin-top: 0.5rem;
+  }
+}
+
+.hero-copy__cta-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 2px;
+}
+
+.hero-copy__btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .hero-copy__btn-row {
+    gap: 0.625rem;
+  }
+}
+
+.hero-copy__btn {
+  display: inline-flex;
+  transform-origin: left center;
+  letter-spacing: var(--hero-track);
+}
+
+.hero-aside {
+  position: absolute;
+  right: var(--page-gutter);
+  bottom: clamp(5rem, 14vh, 8.5rem);
+  z-index: 10;
+  width: min(20rem, 88vw);
+  max-width: 22rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-aside {
+    width: min(18rem, 28vw);
+    bottom: clamp(5.5rem, 12vh, 9rem);
+  }
+}
+
+.hero-copy__sr-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

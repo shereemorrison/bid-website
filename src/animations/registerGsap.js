@@ -1,9 +1,6 @@
 /**
- * Central GSAP plugin registration.
- * Import this once (from main.jsx) so ScrollTrigger-aware timelines work everywhere.
- *
- * Put shared ScrollTrigger timelines / scrubbed effects under `src/animations/`
- * (e.g. section reveals) so sections stay thin; pair with hooks in `src/hooks/`.
+ * GSAP + ScrollTrigger registration (imported once from `main.jsx`).
+ * Timings: `timings.js` · timelines: `heroOpening`, `heroCopyReveal`, `revealSection`.
  */
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'

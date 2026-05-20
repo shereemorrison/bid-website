@@ -7,3 +7,6 @@ export const ATHLETE_FIRST_NAME = 'Stefan'
 export const ATHLETE_SURNAME = 'Časić'
 export const ATHLETE_SURNAME_UPPER = 'ČASIĆ'
 export const ATHLETE_FULL_NAME = `${ATHLETE_FIRST_NAME} ${ATHLETE_SURNAME}`
+
+/** Tagline under the hero name */
+export const ATHLETE_TAGLINE = 'Believe In Dreams'
