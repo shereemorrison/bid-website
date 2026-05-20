@@ -57,6 +57,35 @@ export const SECTION_REVEAL = {
   scrollEnd: 'bottom 20%',
 }
 
+/** Story lane — split text, title scale, bracket parallax */
+export const STORY_MOTION = {
+  split: {
+    yPercent: 108,
+    rotateX: -14,
+    duration: 0.72,
+    stagger: 0.035,
+    charStagger: 0.018,
+    scrollStart: 'top 88%',
+  },
+  title: {
+    scaleFrom: 0.9,
+    opacityFrom: 0.55,
+    scrub: 0.85,
+    scrollStart: 'top 92%',
+    scrollEnd: 'top 35%',
+  },
+  frame: {
+    yFrom: 56,
+    scaleFrom: 0.94,
+    duration: 0.95,
+    stagger: 0.14,
+    scrollStart: 'top 82%',
+    parallaxDepths: [5, 10, 15],
+    parallaxStart: 'top bottom',
+    parallaxEnd: 'bottom top',
+  },
+}
+
 /** Hero gradient parallax scrub (ScrollTrigger) */
 export const HERO_PARALLAX = {
   layerBackY: 7,

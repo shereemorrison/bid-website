@@ -1,9 +1,15 @@
+/** Vertical rhythm — full page sections (ring, merch) */
+export const sectionPadClass = 'py-8 md:py-12'
+
+/** Tighter rhythm — story sub-blocks inside `#story` */
+export const storyBlockPadClass = 'py-5 md:py-8'
+
 /** Shared section typography */
 export const sectionKickerClass =
   'font-mono text-xs uppercase tracking-[0.35em] text-rose-400/85'
 
 export const sectionTitleClass =
-  'mt-3 font-display text-5xl uppercase leading-[0.98] tracking-wide text-white md:text-6xl'
+  'mt-2 font-display text-5xl uppercase leading-[0.98] tracking-wide text-white md:text-6xl'
 
 /** Hero intro block — see `HeroCopy.jsx` + `src/styles/hero-copy.css` */
 export const heroCopyClass = 'hero-copy'

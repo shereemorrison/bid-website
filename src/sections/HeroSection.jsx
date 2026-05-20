@@ -142,11 +142,11 @@ export function HeroSection({ introComplete = true }) {
         <div data-hero-aside className="hero-aside">
           <BracketFrame
             align="right"
-            className="ml-auto font-mono uppercase text-[13px] tracking-[0.14em] text-zinc-200 lg:text-[11px] lg:leading-relaxed xl:text-[12px]"
+            className="hero-aside__frame ml-auto max-w-none font-mono text-base leading-snug text-zinc-200 md:text-lg"
           >
             <p className="text-pretty text-right drop-shadow-[0_2px_16px_rgba(0,0,0,0.95)]">
-              Immersive chronicle — ring physics, grit, comeback craft. Full-bleed footage
-              behind this layer; swap in a preloader handoff when ready.
+              Talent can open doors. But grit keeps you standing when everything else falls
+              apart.
             </p>
           </BracketFrame>
         </div>

@@ -1,8 +1,5 @@
 import { cn } from '../lib/cn'
 
-/**
- * Thin L-corner brackets (techno flyer / editorial frame) — pairs with asymmetric layout.
- */
 export function BracketFrame({ children, align = 'left', className }) {
   const isRight = align === 'right'
 
@@ -22,7 +19,7 @@ export function BracketFrame({ children, align = 'left', className }) {
         className="pointer-events-none absolute bottom-0 right-0 h-8 w-8 border-r border-b border-white/40"
         aria-hidden
       />
-      <div className={cn('py-6', isRight ? 'pl-7 pr-3' : 'pl-7 pr-5')}>{children}</div>
+      <div className={cn('py-4', isRight ? 'pl-7 pr-3' : 'pl-7 pr-5')}>{children}</div>
     </div>
   )
 }

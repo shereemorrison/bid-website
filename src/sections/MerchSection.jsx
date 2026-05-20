@@ -4,7 +4,7 @@ import { FiShoppingBag } from 'react-icons/fi'
 import { LayoutContainer } from '../components/LayoutContainer'
 import { SectionGrid, SectionMain, SectionAside } from '../components/SectionGrid'
 import { BracketFrame } from '../components/BracketFrame'
-import { sectionKickerClass, sectionTitleClass } from '../lib/sectionLayout'
+import { sectionKickerClass, sectionPadClass, sectionTitleClass } from '../lib/sectionLayout'
 import { useGsapReveal } from '../hooks/useGsapReveal'
 import { cn } from '../lib/cn'
 
@@ -37,7 +37,7 @@ export function MerchSection() {
     <section
       ref={ref}
       id="merch"
-      className="scroll-mt-24 border-t border-white/10 bg-zinc-950 py-24 md:py-32"
+      className={cn('scroll-mt-24 border-t border-white/10 bg-zinc-950', sectionPadClass)}
     >
       <LayoutContainer>
         <SectionGrid className="lg:items-end">
@@ -62,7 +62,7 @@ export function MerchSection() {
           </SectionAside>
         </SectionGrid>
 
-        <ul className="mt-14 grid auto-rows-fr grid-cols-1 gap-6 md:grid-cols-3 lg:mt-16 lg:gap-8">
+        <ul className="mt-8 grid auto-rows-fr grid-cols-1 gap-6 md:grid-cols-3 lg:mt-10 lg:gap-7">
           {products.map((p) => (
             <motion.li
               key={p.name}

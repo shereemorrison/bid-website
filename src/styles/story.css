@@ -1,0 +1,79 @@
+/**
+ * Story lane — split-text masks, title perspective, bracket motion hooks.
+ */
+.split-text {
+  display: inline;
+}
+
+.split-text__unit {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: inherit;
+  padding-bottom: 0.06em;
+}
+
+.split-text__inner {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}
+
+.split-text__inner--emphasis {
+  color: rgb(248 113 113 / 0.92);
+}
+
+.split-text__space {
+  display: inline;
+  white-space: pre;
+}
+
+.story-title {
+  perspective: 900px;
+  transform-origin: left center;
+  will-change: transform, opacity;
+}
+
+.story-title--stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.05em;
+}
+
+.story-title--stacked.story-title--right {
+  align-items: flex-end;
+}
+
+.story-title--stacked .story-title__line {
+  display: block;
+  overflow: hidden;
+}
+
+.story-title__line--nowrap {
+  white-space: nowrap;
+}
+
+.story-title--right {
+  transform-origin: right center;
+  text-align: right;
+}
+
+.story-title__line {
+  display: inline;
+  overflow: hidden;
+}
+
+.story-frame {
+  perspective: 720px;
+  will-change: transform;
+  transform-origin: right center;
+}
+
+.story-frame .split-text {
+  perspective: inherit;
+}
+
+.story-frame--enter {
+  will-change: transform, opacity;
+}

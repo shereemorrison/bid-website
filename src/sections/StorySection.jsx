@@ -1,73 +1,130 @@
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
+import { StoryBlock } from '../components/StoryBlock'
 import { LayoutContainer } from '../components/LayoutContainer'
-import { SectionGrid, SectionMain, SectionAside, SectionFull } from '../components/SectionGrid'
-import { BracketFrame } from '../components/BracketFrame'
-import { sectionKickerClass, sectionTitleClass } from '../lib/sectionLayout'
-import { useGsapReveal } from '../hooks/useGsapReveal'
+import { heroCtaPrimaryClass, sectionKickerClass } from '../lib/sectionLayout'
+import { useStorySectionMotion } from '../hooks/useStorySectionMotion'
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 import { FiArrowUpRight } from 'react-icons/fi'
 
 /**
- * About / biography lane — asymmetric columns + bracket frame on body copy.
+ * Biography lane — titles left, copy in bracket frames right, GSAP split / parallax / scale.
  */
 export function StorySection() {
   const ref = useRef(null)
-  useGsapReveal(ref)
+  const reduced = usePrefersReducedMotion()
+  useStorySectionMotion(ref, reduced)
 
   return (
     <section
       ref={ref}
       id="story"
-      className="scroll-mt-24 border-t border-white/10 bg-zinc-950 py-24 md:py-32"
+      className="scroll-mt-24 border-t border-white/10 bg-zinc-950"
     >
-      <LayoutContainer>
-        <SectionGrid>
-          <SectionMain>
-            <p data-reveal className={sectionKickerClass}>
-              Inside the camp
+      <StoryBlock
+        stackedTitle
+        alignTitle="center"
+        wideAside
+        kicker="The story"
+        titleLines={[
+          { text: 'Made in the Balkans.' },
+          { text: 'Built in Germany.', muted: true },
+          { text: 'Forged in Australia.', muted: true },
+        ]}
+        frameClassName="story-frame--wide"
+        paragraphs={[
+          {
+            text: 'Every setback became another round. Every sacrifice became another reason to keep going.',
+          },
+          {
+            text: 'With a dream bigger than fear, he left everything behind and moved to Australia chasing one goal: to become a professional fighter.',
+          },
+          { text: 'No shortcuts. No guarantees.' },
+          { text: 'Just relentless work, discipline, and belief.' },
+          {
+            text: 'This isn\u2019t just boxing. This is survival turned into purpose.',
+            emphasis: true,
+          },
+        ]}
+      />
+
+      {/* Philosophy — centered quote */}
+      <div className="border-b border-white/5 py-5 md:py-8" data-story-philosophy>
+        <LayoutContainer>
+          <blockquote
+            data-reveal
+            className="relative mx-auto max-w-4xl border-y border-white/10 px-6 py-6 text-center md:px-8 md:py-9"
+          >
+            <p className={sectionKickerClass}>Philosophy</p>
+            <p className="mt-4 font-display text-2xl uppercase leading-snug tracking-wide text-white md:text-4xl md:leading-tight">
+              &ldquo;Champions aren&apos;t made when things are easy.
+              <br />
+              <span className="text-zinc-500">
+                They&apos;re made in silence, sacrifice, and the moments nobody sees.&rdquo;
+              </span>
             </p>
-            <h2 data-reveal className={sectionTitleClass}>
-              Built in silence, <span className="text-zinc-500">proven under lights.</span>
-            </h2>
-          </SectionMain>
+          </blockquote>
+        </LayoutContainer>
+      </div>
 
-          <SectionAside className="lg:pt-1">
-            <BracketFrame align="right" className="font-mono text-[13px] text-zinc-400 md:text-sm">
-              <div className="space-y-5">
-                {/* TODO: Replace lorem with real story. */}
-                <p data-reveal>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-                <p data-reveal>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                  culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <p data-reveal>
-                  Motion beats belong in{' '}
-                  <code className="rounded bg-white/5 px-1 py-0.5 font-mono text-[0.85em] text-rose-200">
-                    src/animations/
-                  </code>
-                  .
-                </p>
-              </div>
-            </BracketFrame>
-          </SectionAside>
+      <StoryBlock
+        reversed
+        wideAside
+        stackedTitle
+        kicker="Training"
+        titleLines={[
+          { text: 'No excuses.' },
+          { text: 'No days off.', muted: true, nowrap: true },
+        ]}
+        frameClassName="story-frame--wide"
+        paragraphs={[
+          {
+            text: 'Success isn\u2019t motivation. It\u2019s repetition. Early mornings. Heavy hands. Endless rounds. Training long after the body wants to stop.',
+          },
+          {
+            text: 'Because in this sport, heart matters just as much as power. Every session is about becoming stronger than yesterday — physically and mentally.',
+          },
+        ]}
+      />
 
-          <SectionFull className="mt-4 lg:mt-8">
+      <StoryBlock
+        className="border-b-0"
+        stackedTitle
+        wideAside
+        frameClassName="story-frame--wide"
+        kicker="What\u2019s next"
+        titleLines={[
+          { text: 'The fight is' },
+          { text: 'just beginning.', muted: true },
+        ]}
+        paragraphs={[
+          {
+            text: 'This story was never supposed to be easy. That\u2019s exactly why it matters.',
+          },
+          {
+            text: 'From the Balkans to Australia, every step has been earned through sacrifice, discipline, and relentless belief. And the next chapter is still being written.',
+          },
+        ]}
+        footer={
+          <div className="flex flex-wrap items-center gap-4">
             <motion.a
-              data-reveal
               href="#ring"
+              className={`${heroCtaPrimaryClass} inline-flex items-center gap-2`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Enter the ring <FiArrowUpRight className="size-4" aria-hidden />
+            </motion.a>
+            <motion.a
+              href="#merch"
               className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-red-400 transition hover:text-red-300"
               whileHover={{ x: 2 }}
             >
-              Next: ring canvas <FiArrowUpRight className="size-4" aria-hidden />
+              View merch <FiArrowUpRight className="size-4" aria-hidden />
             </motion.a>
-          </SectionFull>
-        </SectionGrid>
-      </LayoutContainer>
+          </div>
+        }
+      />
     </section>
   )
 }
