@@ -1,16 +1,60 @@
-# React + Vite
+# bid-website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Cinematic marketing site for **Stefan Časić** — story, hero video shell, and merch placeholders. Built for scroll-driven motion and room to grow (3D scenes, shaders, real video).
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Layer | Tools |
+| --- | --- |
+| App | [React 19](https://react.dev/) + [Vite 8](https://vite.dev/) |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com/) (`@tailwindcss/vite`) |
+| Smooth scroll | [Lenis](https://github.com/darkroomengineering/lenis) + [GSAP](https://gsap.com/) ticker sync |
+| Scroll animation | [GSAP](https://gsap.com/) + **ScrollTrigger** |
+| UI motion | [Framer Motion](https://www.framer.com/motion/) |
+| 3D (optional) | [React Three Fiber](https://r3f.docs.pmnd.rs/) + [drei](https://github.com/pmndrs/drei) + [Three.js](https://threejs.org/) — `HeroCanvas` / `HeroScene` |
+| Icons | [React Icons](https://react-icons.github.io/react-icons/) |
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Node.js** 20+ recommended (matches current Vite / ecosystem)
+- **npm** (or use your own client; lockfile is npm)
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Open the URL Vite prints (usually `http://localhost:5173`).
+
+### Scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Dev server with HMR |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Serve `dist/` locally |
+| `npm run lint` | ESLint |
+
+## Project layout
+
+```
+src/
+  animations/     # GSAP registration + shared triggers (e.g. section reveals)
+  assets/         # Static images, video poster frames, etc.
+  components/     # Nav, Lenis provider, scroll progress, layout shell
+  context/        # App scroll context (Lenis + progress)
+  hooks/          # useAppScroll, useGsapReveal, useParallaxScrub, …
+  lib/            # Small utils, `athlete.js` name constants, dependency notes
+  scenes/         # React Three Fiber scenes (optional / lazy-loaded)
+  sections/       # Page sections — add new story blocks here
+  shaders/        # Future GLSL (see README inside folder)
+  styles/         # Lenis tweaks, layout helpers (imported from index.css)
+```
+
+## Deploy
+
+Vercel
+
+---
