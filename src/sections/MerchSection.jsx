@@ -1,30 +1,12 @@
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
-import { FiShoppingBag } from 'react-icons/fi'
 import { LayoutContainer } from '../components/LayoutContainer'
 import { SectionGrid, SectionMain, SectionAside } from '../components/SectionGrid'
 import { BracketFrame } from '../components/BracketFrame'
 import { sectionKickerClass, sectionPadClass, sectionTitleClass } from '../lib/sectionLayout'
+import { MERCH_PRODUCTS } from '../lib/merchMedia'
 import { useGsapReveal } from '../hooks/useGsapReveal'
 import { cn } from '../lib/cn'
-
-const products = [
-  {
-    name: 'Fight Night Hoodie',
-    price: '$68',
-    hint: 'Plush mid-weight · embossed patch',
-  },
-  {
-    name: 'Corner Towel',
-    price: '$24',
-    hint: 'Jacquard weave · camp colors',
-  },
-  {
-    name: 'Training Tee',
-    price: '$36',
-    hint: 'Breathable blend · motion cut',
-  },
-]
 
 /**
  * Merchandise — offset header grid + staggered product cards.
@@ -55,17 +37,17 @@ export function MerchSection() {
               className="text-xs uppercase leading-snug tracking-[0.14em] text-zinc-500"
             >
               <p data-reveal>
-                Product imagery, variants, and checkout wiring arrive here. Keep commerce isolated
-                from cinematic sections for easier code splitting.
+                Small-batch drops. No restocks. When it&apos;s gone, it&apos;s gone — gear built for
+                the gym, not the gift shop.
               </p>
             </BracketFrame>
           </SectionAside>
         </SectionGrid>
 
         <ul className="mt-8 grid auto-rows-fr grid-cols-1 gap-6 md:grid-cols-3 lg:mt-10 lg:gap-7">
-          {products.map((p) => (
+          {MERCH_PRODUCTS.map((p) => (
             <motion.li
-              key={p.name}
+              key={p.id}
               data-reveal
               layout
               className={cn(
@@ -74,10 +56,13 @@ export function MerchSection() {
               whileHover={{ y: -4 }}
               transition={{ type: 'spring', stiffness: 320, damping: 24 }}
             >
-              <div className="mb-6 flex aspect-[4/3] shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 text-zinc-600">
-                <FiShoppingBag
-                  className="size-10 opacity-40 transition group-hover:opacity-70"
-                  aria-hidden
+              <div className="mb-6 flex aspect-[4/3] shrink-0 overflow-hidden rounded-xl bg-zinc-900">
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <h3 className="font-display text-2xl uppercase tracking-wide text-white">{p.name}</h3>
