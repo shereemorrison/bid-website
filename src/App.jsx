@@ -9,6 +9,7 @@ import { HeroSection } from './sections/HeroSection'
 import { StorySection } from './sections/StorySection'
 import { RingSection } from './sections/RingSection'
 import { MerchSection } from './sections/MerchSection'
+import { Analytics } from "@vercel/analytics/react";
 
 /**
  * Application shell — composition only. Each `src/sections/*` file should stay focused:
@@ -34,6 +35,7 @@ function App() {
           </main>
           <SiteFooter />
         </div>
+        <Analytics />
       </HeroAudioProvider>
     </LenisProvider>
   )
